@@ -8,7 +8,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#define DELAY_LOOP_COUNT 500000
+#define DELAY_COUNTER 200000000
 
 void vTask1(void *pvParameters);
 void vTask2(void *pvParameters);
@@ -28,7 +28,11 @@ void vTask1(void *pvParameters)
     for (;;)
     {
         printf("\033[0;32mTask 1\033[0m\r\n");
-        for(int ul = 0; ul < DELAY_LOOP_COUNT; ul++ ){}
+        for(int i=0; i<10; i++){
+            printf("\033[0;32mCounting Green %d\033[0m\n", i);
+            for(int ul=0; ul<DELAY_COUNTER;ul++){}
+        }
+        vTaskDelay(pdMS_TO_TICKS(150));
     }
 }
 
@@ -37,7 +41,6 @@ void vTask2(void *pvParameters)
     for (;;)
     {
         printf("\033[0;31mTask 2\033[0m\r\n");
-        for(int ul = 0; ul < DELAY_LOOP_COUNT; ul++ ){}
-    
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
