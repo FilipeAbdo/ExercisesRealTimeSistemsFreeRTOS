@@ -4,8 +4,6 @@
 CC := gcc
 BIN := exercise
 
-BUILD_DIR := build
-
 FREERTOS_DIR_REL := ${FREERTOS_PATH}/FreeRTOS
 FREERTOS_DIR := $(abspath $(FREERTOS_DIR_REL))
 
@@ -30,19 +28,17 @@ SOURCE_FILES += ${FREERTOS_DIR}/Source/portable/ThirdParty/GCC/Posix/utils/wait_
 CFLAGS := -ggdb3 -O0
 LDFLAGS := -ggdb3 -O0 -pthread
 
-OBJ_FILES = $(SOURCE_FILES:%.c=$(BUILD_DIR)/%.o)
+OBJ_FILES = $(SOURCE_FILES:%.c=%.o)
 
 DEP_FILE = $(OBJ_FILES:%.o=%.d)
 
-${BIN} : $(BUILD_DIR)/$(BIN)
-
-${BUILD_DIR}/${BIN} : ${OBJ_FILES}
+${BIN} : ${OBJ_FILES}
 	-mkdir -p ${@D}
 	$(CC) $^ $(CFLAGS) $(INCLUDE_DIRS) ${LDFLAGS} -o $@
 
 -include ${DEP_FILE}
 
-${BUILD_DIR}/%.o : %.c
+%.o : %.c
 	-mkdir -p $(@D)
 	$(CC) $(CFLAGS) ${INCLUDE_DIRS} -MMD -c $< -o $@
 
