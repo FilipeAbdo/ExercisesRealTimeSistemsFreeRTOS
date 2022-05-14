@@ -44,5 +44,7 @@ ${BIN} : ${OBJ_FILES}
 
 .PHONY: clean
 
+rebuild: clean $(BIN)
+
 clean:
 	-rm -rf $(BIN)
