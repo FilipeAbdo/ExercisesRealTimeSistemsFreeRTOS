@@ -34,11 +34,13 @@ OBJ_FILES = $(SOURCE_FILES:%.c=%.o)
 DEP_FILE = $(OBJ_FILES:%.o=%.d)
 
 ${BIN} : ${OBJ_FILES}
+	-mkdir -p ${@D}
 	$(CC) $^ $(CFLAGS) $(INCLUDE_DIRS) ${LDFLAGS} -o $@
 
 -include ${DEP_FILE}
 
 %.o : %.c
+	-mkdir -p $(@D)
 	$(CC) $(CFLAGS) ${INCLUDE_DIRS} -MMD -c $< -o $@
 
 .PHONY: clean
