@@ -13,6 +13,7 @@ FREERTOS_PLUS_DIR := $(abspath $(FREERTOS_PLUS_DIR_REL))
 INCLUDE_DIRS := -I./include
 INCLUDE_DIRS += -I${FREERTOS_DIR}/Source/include
 INCLUDE_DIRS += -I${FREERTOS_DIR}/Source/portable/ThirdParty/GCC/Posix
+INCLUDE_DIRS += -I${FREERTOS_DIR}/Source/portable/ThirdParty/GCC/Posix/utils
 
 SOURCE_FILES := $(wildcard ./src/*.c)
 SOURCE_FILES += ${FREERTOS_DIR}/Source/tasks.c
@@ -33,13 +34,11 @@ OBJ_FILES = $(SOURCE_FILES:%.c=%.o)
 DEP_FILE = $(OBJ_FILES:%.o=%.d)
 
 ${BIN} : ${OBJ_FILES}
-	-mkdir -p ${@D}
 	$(CC) $^ $(CFLAGS) $(INCLUDE_DIRS) ${LDFLAGS} -o $@
 
 -include ${DEP_FILE}
 
 %.o : %.c
-	-mkdir -p $(@D)
 	$(CC) $(CFLAGS) ${INCLUDE_DIRS} -MMD -c $< -o $@
 
 .PHONY: clean
